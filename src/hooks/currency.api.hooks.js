@@ -14,7 +14,7 @@ class CurrencyApi {
         return Object.values(apiResponse.symbols);
     }
 
-    async getConversionRates(baseCurrency = 'ILS') {
+    async getExchangeRates(baseCurrency = 'ILS') {
         return (await this.client.get('/latest', { params: { base: baseCurrency } })).data.rates;
     }
 }
