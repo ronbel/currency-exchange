@@ -7,6 +7,7 @@ export default function CurrencyTable() {
     const { data, actions } = useStoreContext();
 
     return (
+        <>
         <table>
             <thead>
             <tr>
@@ -28,5 +29,7 @@ export default function CurrencyTable() {
             }
             </tbody>
         </table>
+        {data.selectedCurrencies?.length === 0 && <h4>Select currencies to see their exchange rates with {data.baseCurrency}</h4>}
+        </>
     )
 }
