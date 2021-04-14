@@ -13,9 +13,13 @@ export default function CurrencySelect() {
 
     useEffect(() => {
         const init = async () => {
-            const currenciesList = await currencyApi.getCurrencyList();
-            setAllCurrencies(currenciesList);
-            setCurrentSelection(currenciesList[0].code);
+            try {
+                const currenciesList = await currencyApi.getCurrencyList();
+                setAllCurrencies(currenciesList);
+                setCurrentSelection(currenciesList[0].code);
+            } catch (e) {
+                alert('Failed to fetch currencies list');
+            }
         }
         init();
     }, [currencyApi])
@@ -34,8 +38,8 @@ export default function CurrencySelect() {
             </select>
 
             <div className={styles['buttons-container']}>
-                <button disabled={data.selectedCurrencies.includes(currentSelection)} onClick={addSelectionToTable}>Add To Table</button>
-                <button disabled={data.baseCurrency === currentSelection} onClick={setSelectionAsBaseCurrency}>Set As Base Currency</button>
+                <button disabled={!currentSelection || data.selectedCurrencies.includes(currentSelection)} onClick={addSelectionToTable}>Add To Table</button>
+                <button disabled={!currentSelection || data.baseCurrency === currentSelection} onClick={setSelectionAsBaseCurrency}>Set As Base Currency</button>
             </div>
         </div>
     )

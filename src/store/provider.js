@@ -1,6 +1,6 @@
 import React, { useContext, useReducer, createContext, useEffect } from 'react';
 import { useCurrencyApi } from '../hooks/currency.api.hooks';
-import {reducer, DEFAULT_STATE} from './reducer';
+import { reducer, DEFAULT_STATE } from './reducer';
 import {
     ADD_CURRENCY_TO_LIST,
     REMOVE_CURRENCY_FROM_LIST,
@@ -23,8 +23,12 @@ export function StoreProvider({ children }) {
 
     useEffect(() => {
         const init = async () => {
-            const initialExchangeRate = await currencyApi.getExchangeRates(state.baseCurrency);
-            dispatch({ type: SET_INITIAL_EXCHANGE_RATES, payload: { exchangeRates: initialExchangeRate } });
+            try {
+                const initialExchangeRate = await currencyApi.getExchangeRates(state.baseCurrency);
+                dispatch({ type: SET_INITIAL_EXCHANGE_RATES, payload: { exchangeRates: initialExchangeRate } });
+            } catch (e) {
+                alert('Failed to initialize app');
+            }
         }
         init();
     }, []);
@@ -36,8 +40,12 @@ export function StoreProvider({ children }) {
         removeCurrency: currencyToRemove => dispatch({ type: REMOVE_CURRENCY_FROM_LIST, payload: { currencyToRemove } }),
 
         changeBaseCurrency: async newBaseCurrency => {
-            const newExchangeRates = await currencyApi.getExchangeRates(newBaseCurrency);
-            dispatch({ type: CHANGE_BASE_CURRENCY, payload: { newBaseCurrency, newExchangeRates } });
+            try {
+                const newExchangeRates = await currencyApi.getExchangeRates(newBaseCurrency);
+                dispatch({ type: CHANGE_BASE_CURRENCY, payload: { newBaseCurrency, newExchangeRates } });
+            } catch (e) {
+                alert('Failed to set new base currency');
+            }
         }
     }
 
