@@ -33,7 +33,7 @@ export default function CurrencySelect() {
         <div className={styles.container}>
             <select value={currentSelection} onChange={onSelectionChange}>
                 {
-                    allCurrencies.map(curr => <option key={curr.code} value={curr.code}>{curr.description}</option>)
+                    allCurrencies.map(curr => <option key={curr.code} value={curr.code}>{curr.code} - {curr.description}</option>)
                 }
             </select>
 
